@@ -1,9 +1,5 @@
-import OpenAI from "openai";
-import { OpenAIStream, StreamingTextResponse } from "ai";
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+import { openai } from '@ai-sdk/openai';
+import { streamText } from 'ai';
 
 export const runtime = "edge";
 
@@ -18,17 +14,15 @@ export async function POST(req: Request) {
     presence_penalty,
   } = await req.json();
 
-  const response = await openai.chat.completions.create({
-    stream: true,
-    model: model,
-    temperature: temperature,
-    max_tokens: max_tokens,
-    top_p: top_p,
-    frequency_penalty: frequency_penalty,
-    presence_penalty: presence_penalty,
+  const result = await streamText({
+    model: openai(model),
     messages: messages,
+    temperature: temperature,
+    maxTokens: max_tokens,
+    topP: top_p,
+    frequencyPenalty: frequency_penalty,
+    presencePenalty: presence_penalty,
   });
 
-  const stream = OpenAIStream(response);
-  return new StreamingTextResponse(stream);
+  return result.toDataStreamResponse();
 }
