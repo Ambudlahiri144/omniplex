@@ -1,5 +1,6 @@
 import Chat from "@/components/Chat/Chat";
 import AuthWrapper from "../../AuthWrapper";
+import UpgradeButton from "@/components/UpgradeButton"; 
 
 type Props = {
   params: { id: string };
@@ -44,7 +45,16 @@ export async function generateMetadata({ params }: Props) {
 const ChatPage = ({ params }: Props) => {
   return (
     <AuthWrapper>
-      <Chat id={params.id} />
+      <div className="flex flex-col h-screen">
+        <div className="flex-grow overflow-y-auto">
+          <Chat id={params.id} />
+        </div>
+        
+        {/* 3. Placed the UpgradeButton in a container at the bottom */}
+        <div className="p-4 bg-white border-t border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+          <UpgradeButton />
+        </div>
+      </div>
     </AuthWrapper>
   );
 };

@@ -4,6 +4,12 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthState, setUserDetailsState } from "@/store/authSlice";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { initializeApp, getApps, getApp } from "firebase/app";
+
+
+
+// measurementId: "G-XG560ELB1D"
+
 
 const AuthWrapper = ({ children }: { children: React.ReactNode }) => {
   const dispatch = useDispatch();
